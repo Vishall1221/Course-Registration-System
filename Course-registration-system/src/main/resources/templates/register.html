@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Course Registration</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #c3ecb2, #7ee8fa);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form-container {
+      background: white;
+      padding: 40px 50px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      width: 420px;
+      position: relative;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
+      border: 1px solid #bbb;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    input:focus {
+      border-color: #1e90ff;
+      outline: none;
+      box-shadow: 0 0 6px rgba(30, 144, 255, 0.4);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      background-color: #1e90ff;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #0b65b1;
+    }
+
+    #message {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .btn-secondary {
+      padding: 8px 18px;
+      background-color: green;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background-color: darkgreen;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-right">
+    <a href="registerdb.html" target="_blank">
+      <button type="button" class="btn-secondary">View Enrollments</button>
+    </a>
+  </div>
+
+  <div class="form-container">
+    <h1>Enroll Student in Course</h1>
+    <form id="registerForm">
+      <label for="regNo">Student Reg No:</label>
+      <input type="text" id="regNo" name="regNo" placeholder="e.g. 22BCE001" required />
+
+      <label for="courseId">Course ID:</label>
+      <input type="text" id="courseId" name="courseId" placeholder="e.g. CSE101" required />
+
+      <button type="submit" class="btn">Enroll</button>
+    </form>
+
+    <div id="message"></div>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(this);
+
+      fetch("http://localhost:8080/courses/register", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          const msgDiv = document.getElementById("message");
+          msgDiv.innerText = data;
+
+          if (data.includes("Invalid")) {
+            msgDiv.style.color = "red";
+          } else {
+            msgDiv.style.color = "green";
+            document.getElementById("registerForm").reset();
+          }
+        })
+    });
+  </script>
+</body>
+</html>

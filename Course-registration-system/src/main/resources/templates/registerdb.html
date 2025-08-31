@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enrolled Courses Database</title>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      background: #fefbd8;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    th {
+      background-color: #ffa500;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fff7e6;
+    }
+
+    tr:hover {
+      background-color: #ffe0b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Enrolled Courses Database</h1>
+  <table id="enrollTable">
+    <thead>
+      <tr>
+        <th>Student Reg No</th>
+        <th>Course ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Data will load here -->
+    </tbody>
+  </table>
+
+  <script>
+    fetch("http://localhost:8080/courses/enrolled")
+      .then((res) => res.json())
+      .then((data) => {
+        const tbody = document.querySelector("#enrollTable tbody");
+        data.forEach((e) => {
+          const row = `
+            <tr>
+              <td>${e.regNo}</td>
+              <td>${e.courseId}</td>
+            </tr>`;
+          tbody.innerHTML += row;
+        });
+      })
+      .catch((err) => {
+        document.body.innerHTML += `<p style="color:red; text-align:center;">❌ Error loading enrollments: ${err}</p>`;
+      });
+  </script>
+</body>
+</html>

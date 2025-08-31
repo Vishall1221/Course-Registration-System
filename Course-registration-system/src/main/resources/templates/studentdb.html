@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Students Database</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Students Database</h1>
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>Reg No</th>
+                <th>Student Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will load here -->
+        </tbody>
+    </table>
+
+    <script>  
+        fetch("http://localhost:8080/students")
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.querySelector("#studentTable tbody");
+                data.forEach(s => {
+                    const row = `<tr><td>${s.regNo}</td><td>${s.studentName}</td></tr>`;
+                    tbody.innerHTML += row;
+                });
+            })
+            .catch(err => {
+                document.body.innerHTML += `<p style="color:red;">Error loading students: ${err}</p>`;
+            });
+    </script>
+</body>
+</html>
