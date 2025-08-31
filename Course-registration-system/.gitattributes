@@ -1,2 +1,12 @@
 /mvnw text eol=lf
 *.cmd text eol=crlf
+
+# Existing settings
+/mvnw text eol=lf
+*.cmd text eol=crlf
+
+# Tell GitHub Linguist to ignore HTML, CSS, JS
+*.html linguist-detectable=false
+
+# Force Java to be counted
+*.java linguist-detectable=true
